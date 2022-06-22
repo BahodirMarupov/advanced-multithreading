@@ -52,25 +52,25 @@ public class MessageBus {
         return messageQueue.size() == capacity;
     }
 
-    public void waitOnFull() throws InterruptedException {
+    private void waitOnFull() throws InterruptedException {
         synchronized (FULL) {
             FULL.wait();
         }
     }
 
-    public void waitOnEmpty() throws InterruptedException {
+    private void waitOnEmpty() throws InterruptedException {
         synchronized (EMPTY) {
             EMPTY.wait();
         }
     }
 
-    public void notifyAllForFull() {
+    private void notifyAllForFull() {
         synchronized (FULL) {
             FULL.notifyAll();
         }
     }
 
-    public void notifyAllForEmpty() {
+    private void notifyAllForEmpty() {
         synchronized (EMPTY) {
             EMPTY.notifyAll();
         }

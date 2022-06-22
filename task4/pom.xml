@@ -2,18 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>homework</artifactId>
+        <groupId>jmp.workshop</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>jmp.workshop</groupId>
-    <artifactId>homework</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>task1</module>
-        <module>task2</module>
-        <module>task3</module>
-        <module>task4</module>
-    </modules>
+    <artifactId>task4</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
