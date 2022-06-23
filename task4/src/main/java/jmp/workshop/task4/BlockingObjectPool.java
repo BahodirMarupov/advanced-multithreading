@@ -3,6 +3,9 @@ package jmp.workshop.task4;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Author: Bakhodirjon_Marupov
@@ -10,12 +13,13 @@ import java.util.Random;
  */
 public class BlockingObjectPool {
 
-    private final Random random = new Random();
+    private final static Random random = new Random();
+    private final static Lock lock = new ReentrantLock();
+    private final static Condition emptyCondition = lock.newCondition();
+    private final static Condition fullCondition = lock.newCondition();
+
     private final Queue<Object> pool;
     private final int size;
-
-    private static final Object FULL = new Object();
-    private static final Object EMPTY = new Object();
 
     /**
      * Creates filled pool of passed size
@@ -37,14 +41,18 @@ public class BlockingObjectPool {
      */
     public Object get() throws InterruptedException {
         Object object;
-        while (isEmpty()) {
-            waitOnEmpty();
-        }
-        synchronized (this) {
+        try {
+            lock.lock();
+            while (pool.isEmpty()) {
+                emptyCondition.await();
+            }
+
             object = pool.poll();
-            notifyAllForFull();
+            fullCondition.signalAll();
             System.out.println("Object is taken from the pool.");
             System.out.println("Pool size is " + pool.size());
+        } finally {
+            lock.unlock();
         }
         Thread.sleep(random.nextInt(1000));
         return object;
@@ -56,48 +64,18 @@ public class BlockingObjectPool {
      * @param object to be taken back to pool
      */
     public void take(Object object) throws InterruptedException {
-        if (isFull()) {
-            waitOnFull();
-        }
-        synchronized (this) {
+        try {
+            lock.lock();
+            if (pool.size() == size) {
+                fullCondition.await();
+            }
             pool.add(object);
-            notifyAllForEmpty();
+            emptyCondition.signalAll();
             System.out.println("New object is added to the pool.");
             System.out.println("Pool size is " + pool.size());
+        } finally {
+            lock.unlock();
         }
         Thread.sleep(random.nextInt(1000));
     }
-
-    private synchronized boolean isEmpty() {
-        return pool.isEmpty();
-    }
-
-    private synchronized boolean isFull() {
-        return pool.size() == size;
-    }
-
-    private void waitOnFull() throws InterruptedException {
-        synchronized (FULL) {
-            FULL.wait();
-        }
-    }
-
-    private void waitOnEmpty() throws InterruptedException {
-        synchronized (EMPTY) {
-            EMPTY.wait();
-        }
-    }
-
-    private void notifyAllForFull() {
-        synchronized (FULL) {
-            FULL.notifyAll();
-        }
-    }
-
-    private void notifyAllForEmpty() {
-        synchronized (EMPTY) {
-            EMPTY.notifyAll();
-        }
-    }
-
 }
