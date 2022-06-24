@@ -22,64 +22,32 @@ public class Main {
         System.out.println("Choose map implementation.");
         System.out.println("HashMap: 1;  Synchronized HashMap: 2;  ConcurrentHashMap: 3;  CustomMap 4;");
 
+        Thread firstThread;
+        Thread secondThread;
         switch (Optional.ofNullable(scanner.next()).orElse("")) {
             case "1":
-                checkWithHashMap();
+                Map<Integer, Integer> map = new HashMap<>();
+                firstThread = new Thread(new FirstThread(map, LIMIT), "Thread-1");
+                secondThread = new Thread(new SecondThread(map, LIMIT), "Thread-2");
                 break;
             case "2":
-                checkWithSynchronizedHashMap();
+                map = Collections.synchronizedMap(new HashMap<>());
+                firstThread = new Thread(new FirstThread(map, LIMIT), "Thread-1");
+                secondThread = new Thread(new SecondThread(map, LIMIT), "Thread-2");
                 break;
             case "3":
-                checkWithConcurrentHashMap();
+                map = new ConcurrentHashMap<>();
+                firstThread = new Thread(new FirstThread(map, LIMIT), "Thread-1");
+                secondThread = new Thread(new SecondThread(map, LIMIT), "Thread-2");
                 break;
             case "4":
-                checkWithCustomMap();
+                CustomHashMap<Integer, Integer> customMap = new CustomHashMap<>();
+                firstThread = new Thread(new FirstThread(customMap, LIMIT), "Thread-1");
+                secondThread = new Thread(new SecondThread(customMap, LIMIT), "Thread-2");
                 break;
             default:
-                System.err.println("Invalid input!");
+                throw new IllegalArgumentException("Invalid input!");
         }
-    }
-
-    private static void checkWithHashMap() throws InterruptedException {
-        Map<Integer, Integer> map = new HashMap<>();
-        Thread firstThread = new Thread(new FirstThread(map, LIMIT));
-        Thread secondThread = new Thread(new SecondThread(map, LIMIT));
-
-        firstThread.start();
-        secondThread.start();
-
-        firstThread.join();
-        secondThread.join();
-    }
-
-    private static void checkWithSynchronizedHashMap() throws InterruptedException {
-        Map<Integer, Integer> map = Collections.synchronizedMap(new HashMap<>());
-        Thread firstThread = new Thread(new FirstThread(map, LIMIT));
-        Thread secondThread = new Thread(new SecondThread(map, LIMIT));
-
-        firstThread.start();
-        secondThread.start();
-
-        firstThread.join();
-        secondThread.join();
-    }
-
-    private static void checkWithConcurrentHashMap() throws InterruptedException {
-        Map<Integer, Integer> map = new ConcurrentHashMap<>();
-        Thread firstThread = new Thread(new FirstThread(map, LIMIT));
-        Thread secondThread = new Thread(new SecondThread(map, LIMIT));
-
-        firstThread.start();
-        secondThread.start();
-
-        firstThread.join();
-        secondThread.join();
-    }
-
-    private static void checkWithCustomMap() throws InterruptedException {
-        CustomHashMap<Integer, Integer> map = new CustomHashMap<>();
-        Thread firstThread = new Thread(new FirstThread(map, LIMIT), "Thread-1");
-        Thread secondThread = new Thread(new SecondThread(map, LIMIT), "Thread-2");
 
         firstThread.start();
         secondThread.start();
