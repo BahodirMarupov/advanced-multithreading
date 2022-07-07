@@ -10,9 +10,9 @@ Cost: 1 points.
 
 Create three threads:
 
-- `	`1st thread is infinitely writing random number to the collection;
-- `	`2nd thread is printing sum of the numbers in the collection;
-- `	`3rd is printing square root of sum of squares of all numbers in the collection.
+- 1st thread is infinitely writing random number to the collection;
+- 2nd thread is printing sum of the numbers in the collection;
+- 3rd is printing square root of sum of squares of all numbers in the collection.
 
 Make these calculations thread-safe using synchronization block. Fix the possible deadlock.
 
@@ -22,10 +22,10 @@ Cost: 1 points.
 
 Implement message bus using Producer-Consumer pattern.
 
-1. `	`Implement asynchronous message bus. Do not use queue implementations from java.util.concurrent.
-1. `	`Implement producer, which will generate and post randomly messages to the queue.
-1. `	`Implement consumer, which will consume messages on specific topic and log to the console message payload.
-1. `	`(Optional) Application should create several consumers and producers that run in parallel.
+1. Implement asynchronous message bus. Do not use queue implementations from java.util.concurrent.
+1. Implement producer, which will generate and post randomly messages to the queue.
+1. Implement consumer, which will consume messages on specific topic and log to the console message payload.
+1. (Optional) Application should create several consumers and producers that run in parallel.
 
 Task 4
 
@@ -76,16 +76,16 @@ Cost: 1 points.
 
 Make an application that contains business logic for making exchange operations between different currencies.
 
-1. `	`Create models for dealing with currencies, user accounts and exchange rates. One account can have multiple currency values. Use BigDecimal for performing of exchange calculations.
-1. `	`Data with user accounts should be stored as files (one file per account).
-1. `	`Separate application functionality to DAO, service and utilities.
-1. `	`Create module which will provide high-level operations (manage accounts, currencies, exchange rates).
-1. `	`Create sample accounts and currencies. Define sample exchange rates.
-1. `	`Provide concurrent data access to user accounts. Simulate simultaneous currency exchanges for single account by multiple threads and ensure that all the operations are thread-safe.
-1. `	`Use ExecutorService to manage threads.
-1. `	`Make custom exceptions to let user to know the reason of error. Do not handle runtime exceptions.
-1. `	`Validate inputs such an account existence, sufficiency of currency amount, etc.
-1. `	`Log information about what is happening on different application levels and about conversion results. Use Logger for that.
+1. Create models for dealing with currencies, user accounts and exchange rates. One account can have multiple currency values. Use BigDecimal for performing of exchange calculations.
+1. Data with user accounts should be stored as files (one file per account).
+1. Separate application functionality to DAO, service and utilities.
+1. Create module which will provide high-level operations (manage accounts, currencies, exchange rates).
+1. Create sample accounts and currencies. Define sample exchange rates.
+1. Provide concurrent data access to user accounts. Simulate simultaneous currency exchanges for single account by multiple threads and ensure that all the operations are thread-safe.
+1. Use ExecutorService to manage threads.
+1. Make custom exceptions to let user to know the reason of error. Do not handle runtime exceptions.
+1. Validate inputs such an account existence, sufficiency of currency amount, etc.
+1. Log information about what is happening on different application levels and about conversion results. Use Logger for that.
 
 Task 6 (Optional)
 
@@ -95,8 +95,8 @@ Create a multi-threading console application that starts two threads for produce
 
 This task should be implemented using two approaches:
 
-1. `	`Classic model: use non-blocking Queue implementation (e.g. LinkedList) to share data between producer and consumer threads use synchronized block, wait()/notify() methods to guard the queue from simultaneous access.
-1. `	`Concurrency use classes from java.util.concurrent package for synchronization (BlockingQueue, locks, etc.).
+1. Classic model: use non-blocking Queue implementation (e.g. LinkedList) to share data between producer and consumer threads use synchronized block, wait()/notify() methods to guard the queue from simultaneous access.
+1. Concurrency use classes from java.util.concurrent package for synchronization (BlockingQueue, locks, etc.).
 
 When both versions are done compare their performance (ops/sec).
 
